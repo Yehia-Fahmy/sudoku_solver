@@ -28,6 +28,9 @@ counter = 0
 def solve(bo, input):  # function to solve a board that has been given too it
     global counter
     counter += 1
+    if counter > 1000:
+        print("Board cannot be solved")
+        exit()
     find = find_empty(bo)
     if not find:
         return True  # base case of our recursive algorithm
@@ -35,9 +38,6 @@ def solve(bo, input):  # function to solve a board that has been given too it
         row, col = find
 
     for i in range(1, 10):
-        if counter > 1000:
-            print("Board cannot be solved")
-            exit()
         if valid(bo, i, (row, col)):
             bo[row][col] = i
 
