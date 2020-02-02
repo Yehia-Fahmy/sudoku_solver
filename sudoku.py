@@ -22,8 +22,12 @@ board = [
 #     [0, 0, 0, 0, 0, 0, 0, 0, 0],
 # ]
 
+counter = 0
 
-def solve(bo):  # function to solve a board that has been given too it
+
+def solve(bo, input):  # function to solve a board that has been given too it
+    global counter
+    counter += 1
     find = find_empty(bo)
     if not find:
         return True  # base case of our recursive algorithm
@@ -31,14 +35,19 @@ def solve(bo):  # function to solve a board that has been given too it
         row, col = find
 
     for i in range(1, 10):
+        if counter > 1000:
+            print("Board cannot be solved")
+            exit()
         if valid(bo, i, (row, col)):
             bo[row][col] = i
 
-            if solve(bo):
+            if solve(bo, input):
                 return True
 
             bo[row][col] = 0
-    print_board(bo)
+    if input == 1:  # prints each step of solving if the user wants to see it
+        print("Step # ", counter, " :")
+        print_board(bo)
     return False
 
 
@@ -96,8 +105,16 @@ def find_empty(bo):  # function to find the first empty space on a given board
     return None
 
 
-print("Initial Board:")
+counter = 0
+print("Initial Board:")  # displays initial board
 print_board(board)
-solve(board)
+user_input = input(
+    "Would you like to see all the steps? (y/n): "
+)  # prompts for user input
+if user_input == "y":
+    user_input = 1
+else:
+    user_input = 0
+solve(board, user_input)
 print("Final Board;")
 print_board(board)
